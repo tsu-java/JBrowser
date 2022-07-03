@@ -1,5 +1,6 @@
 package ge.tsu.jbrowser;
 
+import javafx.event.Event;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Tab;
@@ -18,15 +19,18 @@ public class MainController implements Initializable {
         createNewEmptyTab();
     }
 
+    public void onPlusTabClick(Event event) {
+        createNewEmptyTab();
+    }
+
     private void createNewEmptyTab() {
         try {
             FXMLLoader fxmlLoader = new FXMLLoader(JBrowser.class.getResource("tab.fxml"));
-            tabPane.getTabs().add(
-                    new Tab("Empty tab", fxmlLoader.load())
-            );
+            Tab tab = new Tab("Empty tab", fxmlLoader.load());
+            tabPane.getTabs().add(tabPane.getTabs().size() - 1, tab);
+            tabPane.getSelectionModel().select(tab);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
     }
-
 }
