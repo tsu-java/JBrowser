@@ -5,6 +5,7 @@ import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.scene.layout.StackPane;
@@ -29,8 +30,11 @@ public class MainController implements Initializable {
     private void createNewEmptyTab() {
         try {
             FXMLLoader fxmlLoader = new FXMLLoader(JBrowser.class.getResource("tab.fxml"));
-            Tab tab = new Tab("Empty tab", fxmlLoader.load());
+            Parent tabContent = fxmlLoader.load();
+            Tab tab = new Tab("Empty tab", tabContent);
             tab.setOnClosed(this::onClosedHandler);
+            TabController tabController = fxmlLoader.getController();
+            tabController.setTab(tab);
             tabPane.getTabs().add(tabPane.getTabs().size() - 1, tab);
             tabPane.getSelectionModel().select(tab);
         } catch (IOException e) {
