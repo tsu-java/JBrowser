@@ -1,6 +1,8 @@
 package ge.tsu.jbrowser;
 
+import javafx.application.Platform;
 import javafx.event.Event;
+import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Tab;
@@ -28,10 +30,19 @@ public class MainController implements Initializable {
         try {
             FXMLLoader fxmlLoader = new FXMLLoader(JBrowser.class.getResource("tab.fxml"));
             Tab tab = new Tab("Empty tab", fxmlLoader.load());
+            tab.setOnClosed(this::onClosedHandler);
             tabPane.getTabs().add(tabPane.getTabs().size() - 1, tab);
             tabPane.getSelectionModel().select(tab);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
     }
+
+    private void onClosedHandler(Event event) {
+        // If only plus button tab is left then close application
+        if (tabPane.getTabs().size() <= 1) {
+            Platform.exit();
+        }
+    }
+
 }
