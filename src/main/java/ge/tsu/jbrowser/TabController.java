@@ -30,10 +30,19 @@ public class TabController implements Initializable {
     }
 
     public void onGoClick(ActionEvent event) {
-        webEngine.load(textField.getText());
+        webEngine.load(autoPrefix(textField.getText()));
+    }
+
+    private String autoPrefix(String url) {
+        if (!url.startsWith("http://")
+                && !url.startsWith("https://")) {
+            url = "http://" + url;
+        }
+        return url;
     }
 
     public void setTab(Tab tab) {
         this.tab = tab;
     }
+
 }
